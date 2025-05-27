@@ -93,7 +93,10 @@ class DocumentAnalyzer:
                                    f"{episode_title}, Episode Date: {episode_date} : ")
                 splits = text_splitter.split_text(doc.DocContent)
                 for split in splits:
-                    vector = self.embeddings.embed_query(episode_metadata + split)
+                    # IMPORTANT: Only the raw split content is embedded here.
+                    # If this logic changes (e.g., to include metadata in the embedding),
+                    # all documents will need to be re-indexed.
+                    vector = self.embeddings.embed_query(split)
                     #TODO: ensure that the metadata is actually being appended to the split content
                     logging.info(f"Episode metadata: {episode_metadata}")
                     logging.info(f"Split content: {split}")
